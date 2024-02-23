@@ -2,7 +2,7 @@
 data_pasien = []
 
 while True:
-    print("\n𓆝 𓆟 𓆞 𓆝 Kalkulator BMI 𓆝 𓆟 𓆞 𓆝")
+    print("\n Kalkulator BMI ")
     print("\n1. Input Data Pasien")
     print("2. Hitung BMI Pasien")
     print("3. Exit.")
@@ -43,7 +43,7 @@ while True:
             else:
                 kategori = "Obesitas"
 
-            print(f"{nama_pasien} memiliki BMI {bmi:.2f} dan termasuk dalam kategori {kategori}")
+            print(f"/n{nama_pasien} memiliki BMI {bmi:.2f} dan termasuk dalam kategori {kategori}")
 
        else:
             print("Invalid patient number. Please enter a valid number.")
