@@ -1,5 +1,5 @@
 # Kelas: SI-47-08
-# Kelompok: 09
+# Kelompok: 04
 # Anggota Kelompok:
 # 1. Rafi Akbar  Frdaus - 1202213165 
 # 2. Muhamad Alvaro Shidiq Faozan - 1202213165 
@@ -17,70 +17,70 @@ from streamlit_lottie import st_lottie
 import requests 
 
 # Step 2 - Hubungkan ke database SQLite3
-conn_08 = sqlite3.connect('tasks.db')
-c_08 = conn_08.cursor()
+conn_0804 = sqlite3.connect('tasks.db')
+c_0804 = conn_0804.cursor()
 
 # Step 3 - Buat fungsi untuk pull request animasi menggunakan lottie
 def load_lottieurl(url: str):
-    r_08 = requests.get(url)
-    if r_08.status_code != 200:
+    r_0804 = requests.get(url)
+    if r_0804.status_code != 200:
         return None
-    return r_08.json()
+    return r_0804.json()
 
-lottie_hello_08 = load_lottieurl("https://lottie.host/72c86b6a-19aa-4613-b29d-21baa560210b/ZxDh53yN1C.json")
+lottie_hello_0804 = load_lottieurl("https://lottie.host/72c86b6a-19aa-4613-b29d-21baa560210b/ZxDh53yN1C.json")
 
 
 # Step 4 - Membuat fungsi untuk mengambil Tasks dari database, menggunakan fetch
 def fetch_tasks():
-    c_08.execute('SELECT * FROM tasks')
-    return c_08.fetchall()
+    c_0804.execute('SELECT * FROM tasks')
+    return c_0804.fetchall()
 
 #Step 5 - Membuat fungsi untuk mengambil jumlah task student, menggunakan fetch
 def fetch_student_task_counts():
-    c_08.execute('''
+    c_0804.execute('''
               SELECT student_name, COUNT(*) as task_count
               FROM tasks
               GROUP BY student_name
               ''')
-    return c_08.fetchall()
+    return c_0804.fetchall()
 
 #Step 6 - Membuat fungsi untuk mengambil tugas untuk ID siswa tertentu
 def fetch_tasks_by_student(student_id):
-    c_08.execute('SELECT * FROM tasks WHERE student_id = ?', (student_id,))
-    return c_08.fetchall()
+    c_0804.execute('SELECT * FROM tasks WHERE student_id = ?', (student_id,))
+    return c_0804.fetchall()
 
 #Step 7 - Membuat fungsi untuk menambahkan tugas ke database
 def add_task(student_id, student_name, task, time, location, status):
-    c_08.execute('''
+    c_0804.execute('''
               INSERT INTO tasks (student_id, student_name, task, time, location, status)
               VALUES (?, ?, ?, ?, ?, ?)
               ''', (student_id, student_name, task, time, location, status))
-    conn_08.commit()
+    conn_0804.commit()
 
 #Step 8 - Membuat fungsi untuk memperbarui tugas dalam database
 def update_task(id, student_id, student_name, task, time, location, status):
-    c_08.execute('''
+    c_0804.execute('''
               UPDATE tasks
               SET student_id = ?, student_name = ?, task = ?, time = ?, location = ?, status = ?
               WHERE id = ?
               ''', (student_id, student_name, task, time, location, status, id))
-    conn_08.commit()
+    conn_0804.commit()
 
 # Step 9 - Membuat fungsi untuk menghapus tugas dari database
 def delete_task(id):
-    c_08.execute('DELETE FROM tasks WHERE id = ?', (id,))
-    conn_08.commit()
+    c_0804.execute('DELETE FROM tasks WHERE id = ?', (id,))
+    conn_0804.commit()
 
 # Step 10 - Membuat navigasi di sidebar 
-page_08 = st.sidebar.selectbox('Select Page', ['Welcome', 'Task Overview', 'Edit Task'])
+page_0804 = st.sidebar.selectbox('Select Page', ['Welcome', 'Task Overview', 'Edit Task'])
 
 # Step 11 - Membuat navigasi halaman menggunakan perulangan
 
-if page_08 == 'Welcome':
-    col1_08,col2_08 = st.columns(2,gap="small")
-    with col1_08:
+if page_0804 == 'Welcome':
+    col1_0804,col2_0804 = st.columns(2,gap="small")
+    with col1_0804:
         st_lottie(
-        lottie_hello_08,
+        lottie_hello_0804,
         speed=1,
         reverse=False,
         loop=True,
@@ -90,7 +90,7 @@ if page_08 == 'Welcome':
         key=None,
         )
 
-    with col2_08:
+    with col2_0804:
         st.title('Welcome to the Task Manager App!')
     st.header("", divider='violet')
     st.subheader("""
@@ -104,85 +104,79 @@ if page_08 == 'Welcome':
     
 
 # Step 12 - Membuat Halaman Task Overview Page
-elif page_08 == 'Task Overview':
+elif page_0804 == 'Task Overview':
     st.header('Task Manager - Overview', divider='orange')
 
     # Step 13 - Membuat Sidebar untuk menambahkan tugas
     st.sidebar.header('Add Task')
-    student_id_08 = st.sidebar.number_input('Student ID', min_value=1)
-    student_name_08 = st.sidebar.text_input('Student Name')
-    task_08 = st.sidebar.text_input('Task')
-    time_08 = st.sidebar.text_input('Time')
-    location_08 = st.sidebar.text_input('Location')
-    status_08 = st.sidebar.selectbox('Status', ['Not Started', 'In Progress', 'Completed'])
+    student_id_0804 = st.sidebar.number_input('Student ID', min_value=1)
+    student_name_0804 = st.sidebar.text_input('Student Name')
+    task_0804 = st.sidebar.text_input('Task')
+    time_0804 = st.sidebar.text_input('Time')
+    location_0804 = st.sidebar.text_input('Location')
+    status_0804 = st.sidebar.selectbox('Status', ['Not Started', 'In Progress', 'Completed'])
 
     if st.sidebar.button('Add Task'):
-        add_task(student_id_08, student_name_08, task_08, time_08, location_08, status_08)
+        add_task(student_id_0804, student_name_0804, task_0804, time_0804, location_0804, status_0804)
         st.sidebar.success('Task added successfully')
 
     # Step 14 - Menampilkan tabel tugas
-    tasks_08 = fetch_tasks()
-    df_tasks_08 = pd.DataFrame(tasks_08, columns=['ID', 'Student ID', 'Student Name', 'Task', 'Time', 'Location', 'Status'])
+    tasks_0804 = fetch_tasks()
+    df_tasks_0804 = pd.DataFrame(tasks_0804, columns=['ID', 'Student ID', 'Student Name', 'Task', 'Time', 'Location', 'Status'])
     st.header('Tasks')
-    st.table(df_tasks_08)
+    st.table(df_tasks_0804)
 
     # Step 15 - Menampilkan tabel jumlah tugas siswa
-    student_task_counts_08 = fetch_student_task_counts()
-    df_task_counts_08 = pd.DataFrame(student_task_counts_08, columns=['Student Name', 'Task Count'])
+    student_task_counts_0804 = fetch_student_task_counts()
+    df_task_counts_0804 = pd.DataFrame(student_task_counts_0804, columns=['Student Name', 'Task Count'])
     st.header('Student Task Counts')
-    st.table(df_task_counts_08)
+    st.table(df_task_counts_0804)
 
     # Step 16 - Menampilkan data visualisasi menggunakan Plotly
-    if not df_tasks_08.empty:          
-        fig_08 = px.bar(df_tasks_08, x='Student Name', y='ID', color='Status', title='Tasks Status',
+    if not df_tasks_0804.empty:          
+        fig_0804 = px.bar(df_tasks_0804, x='Student Name', y='ID', color='Status', title='Tasks Status',
                      color_discrete_map={
                      "Not Started": "#FC4100",
                      "In Progress": "#00215E",
                      "Completed": "#FFC55A"
                  })
-        st.plotly_chart(fig_08)
-
-    
- 
+        st.plotly_chart(fig_0804)
 
     # Step 17 - Membuat opsi lihat record siswa tertentu
     st.header('View Student Record')
-    selected_student_id_08 = st.number_input('Enter Student ID to view their tasks', min_value=1, step=1)
+    selected_student_id_0804 = st.number_input('Enter Student ID to view their tasks', min_value=1, step=1)
     if st.button('View Tasks'):
-        student_tasks_08 = fetch_tasks_by_student(selected_student_id_08)
-        if student_tasks_08:
-            df_student_tasks_08 = pd.DataFrame(student_tasks_08, columns=['ID', 'Student ID', 'Student Name', 'Task', 'Time', 'Location', 'Status'])
-            st.subheader(f'Tasks for Student ID {selected_student_id_08}')
-            st.table(df_student_tasks_08)
+        student_tasks_0804 = fetch_tasks_by_student(selected_student_id_0804)
+        if student_tasks_0804:
+            df_student_tasks_0804 = pd.DataFrame(student_tasks_0804, columns=['ID', 'Student ID', 'Student Name', 'Task', 'Time', 'Location', 'Status'])
+            st.subheader(f'Tasks for Student ID {selected_student_id_0804}')
+            st.table(df_student_tasks_0804)
         else:
-            st.write(f'No tasks found for Student ID {selected_student_id_08}')
+            st.write(f'No tasks found for Student ID {selected_student_id_0804}')
 
 # Step 18 - Membuat halaman Edit Task untuk mengubah data yang telah ada 
-elif page_08 == 'Edit Task':
+elif page_0804 == 'Edit Task':
     st.title('Task Manager - Edit Task')
 
-    task_id_08 = st.number_input('Task ID (for Edit/Delete)', min_value=1)
-    if task_id_08:
-        c_08.execute('SELECT * FROM tasks WHERE id = ?', (task_id_08,))
-        task_08 = c_08.fetchone()
-        if task_08:
-            student_id_08 = st.number_input('Student ID', min_value=1, value=task_08[1])
-            student_name_08 = st.text_input('Student Name', value=task_08[2])
-            task_desc_08 = st.text_input('Task', value=task_08[3])
-            time_08 = st.text_input('Time', value=task_08[4])
-            location_08 = st.text_input('Location', value=task_08[5])
-            status_08 = st.selectbox('Status', ['Pending', 'In Progress', 'Completed'], index=['Pending', 'In Progress', 'Completed'].index(task_08[6]))
+    task_id_0804 = st.number_input('Task ID (for Edit/Delete)', min_value=1)
+    if task_id_0804:
+        c_0804.execute('SELECT * FROM tasks WHERE id = ?', (task_id_0804,))
+        task_0804 = c_0804.fetchone()
+        if task_0804:
+            student_id_0804 = st.number_input('Student ID', min_value=1, value=task_0804[1])
+            student_name_0804 = st.text_input('Student Name', value=task_0804[2])
+            task_desc_0804 = st.text_input('Task', value=task_0804[3])
+            time_0804 = st.text_input('Time', value=task_0804[4])
+            location_0804 = st.text_input('Location', value=task_0804[5])
+            status_0804 = st.selectbox('Status', ['Not Started', 'In Progress', 'Completed'], index=['Not Started', 'In Progress', 'Completed'].index(task_0804[6]))
 
             if st.button('Update Task'):
-                update_task(task_id_08, student_id_08, student_name_08, task_desc_08, time_08, location_08, status_08)
+                update_task(task_id_0804, student_id_0804, student_name_0804, task_desc_0804, time_0804, location_0804, status_0804)
                 st.success('Task updated successfully')
 
             if st.button('Delete Task'):
-                delete_task(task_id_08)
+                delete_task(task_id_0804)
                 st.success('Task deleted successfully')
         else:
             st.warning('No task found with this ID')
-
-
-
-conn_08.close()
+conn_0804.close()

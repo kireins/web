@@ -1,10 +1,10 @@
 import sqlite3
 
-conn = sqlite3.connect('tasks.db')
-c = conn.cursor()
+conn_08 = sqlite3.connect('tasks.db')
+c_08= conn_08.cursor()
 
-# Create table
-c.execute('''
+# Membuat tabel
+c_08.execute('''
           CREATE TABLE IF NOT EXISTS tasks
           (id INTEGER PRIMARY KEY,
           student_id INTEGER,
@@ -15,5 +15,5 @@ c.execute('''
           status TEXT)
           ''')
 
-conn.commit()
-conn.close()
+conn_08.commit()
+conn_08.close()
